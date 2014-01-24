@@ -88,7 +88,7 @@ class NewController extends \In2\Femanager\Controller\GeneralController {
 
 		switch ($status) {
 			case 'userConfirmation': // registration confirmed by user
-				if (Div::createHash($user->getUsername()) === $hash) { // hash is correct
+				if (GeneralUtility::stdAuthCode($user->_getCleanProperties(), $this->settings['authCode_fieldList']) === $hash) { // hash is correct  Div::createHash($user->getUsername())
 					$user = $this->div->forceValues($user, $this->config['new.']['forceValues.']['onUserConfirmation.'], $this->cObj); // overwrite values from TypoScript
 					$user->setTxFemanagerConfirmedbyuser(TRUE);
 
@@ -114,7 +114,7 @@ class NewController extends \In2\Femanager\Controller\GeneralController {
 							'New Registration request', // will be overwritten with TypoScript
 							array(
 								 'user' => $user,
-								 'hash' => Div::createHash($user->getUsername() . $user->getUid())
+								 'hash' => GeneralUtility::stdAuthCode($user->_getCleanProperties(), $this->settings['authCode_fieldList']) //Div::createHash($user->getUsername() . $user->getUid())
 							),
 							$this->config['new.']['email.']['createAdminConfirmation.']
 						);
@@ -151,7 +151,7 @@ class NewController extends \In2\Femanager\Controller\GeneralController {
 				break;
 
 			case 'userConfirmationRefused': // registration refused by user
-				if (Div::createHash($user->getUsername()) === $hash) { // hash is correct
+				if (GeneralUtility::stdAuthCode($user->_getCleanProperties(), $this->settings['authCode_fieldList']) === $hash) { // hash is correct Div::createHash($user->getUsername()
 
 					$this->div->log(
 						LocalizationUtility::translate('tx_femanager_domain_model_log.state.104', 'femanager'),
@@ -178,7 +178,7 @@ class NewController extends \In2\Femanager\Controller\GeneralController {
 
 			case 'adminConfirmation': // registration confirmed by admin
 				// registration complete
-				if (Div::createHash($user->getUsername() . $user->getUid())) { // hash is correct
+				if (GeneralUtility::stdAuthCode($user->_getCleanProperties(), $this->settings['authCode_fieldList'])) { // hash is correct
 					$user = $this->div->forceValues($user, $this->config['new.']['forceValues.']['onAdminConfirmation.'], $this->cObj); // overwrite values from TypoScript
 					$user->setTxFemanagerConfirmedbyadmin(TRUE); // set to confirmed by admin
 					if ($user->getTxFemanagerConfirmedbyuser() || empty($this->settings['new']['confirmByUser'])) { // if already confirmed by user OR if user confirmation turned off
@@ -225,7 +225,7 @@ class NewController extends \In2\Femanager\Controller\GeneralController {
 
 			case 'adminConfirmationRefused': // registration refused by admin
 			case 'adminConfirmationRefusedSilent': // registration refused by admin (silent)
-				if (Div::createHash($user->getUsername() . $user->getUid())) { // hash is correct
+				if (GeneralUtility::stdAuthCode($user->_getCleanProperties(), $this->settings['authCode_fieldList'])) { // hash is correct
 
 					$this->div->log(
 						LocalizationUtility::translate('tx_femanager_domain_model_log.state.105', 'femanager'),

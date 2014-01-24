@@ -183,7 +183,7 @@ class GeneralController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionControll
 				'Confirm your profile creation request',
 				array(
 					 'user' => $user,
-					 'hash' => Div::createHash($user->getUsername())
+					 'hash' => GeneralUtility::stdAuthCode($user->_getCleanProperties(), $this->settings['authCode_fieldList']) //Div::createHash($user->getUsername())
 				),
 				$this->config['new.']['email.']['createUserConfirmation.']
 			);
@@ -219,7 +219,7 @@ class GeneralController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionControll
 				'New Registration request', // will be overwritten with TypoScript
 				array(
 					 'user' => $user,
-					 'hash' => Div::createHash($user->getUsername() . $user->getUid())
+					 'hash' => GeneralUtility::stdAuthCode($user->_getCleanProperties(), $this->settings['authCode_fieldList']) //Div::createHash($user->getUsername() . $user->getUid())
 				),
 				$this->config['new.']['email.']['createAdminConfirmation.']
 			);
@@ -299,7 +299,7 @@ class GeneralController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionControll
 			array(
 				 'user' => $user,
 				 'changes' => $dirtyProperties,
-				 'hash' => Div::createHash($user->getUsername() . $user->getUid())
+				 'hash' => GeneralUtility::stdAuthCode($user->_getCleanProperties(), $this->settings['authCode_fieldList']) //Div::createHash($user->getUsername() . $user->getUid())
 			),
 			$this->config['edit.']['email.']['updateRequest.']
 		);

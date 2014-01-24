@@ -101,7 +101,7 @@ class EditController extends \In2\Femanager\Controller\GeneralController {
 		$this->view->assign('user', $user);
 
 		// if wrong hash or if no update xml
-		if (Div::createHash($user->getUsername() . $user->getUid()) !== $hash || !$user->getTxFemanagerChangerequest()) {
+		if (GeneralUtility::stdAuthCode($user->_getCleanProperties(), $this->settings['authCode_fieldList']) !== $hash || !$user->getTxFemanagerChangerequest()) {
 			$this->flashMessageContainer->add(
 				LocalizationUtility::translate('updateFailedProfile', 'femanager'),
 				'',
