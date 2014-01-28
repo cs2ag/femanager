@@ -372,7 +372,9 @@ class GeneralController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionControll
 		$this->redirectByAction($action);
 
 		// go to an action
-		$this->redirect($redirectByActionName);
+		if(!$this->config[$action . '.']['redirect.']) {
+			$this->redirect($redirectByActionName);
+		}
 	}
 
 	/**

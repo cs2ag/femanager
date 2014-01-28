@@ -46,6 +46,7 @@ class NewController extends \In2\Femanager\Controller\GeneralController {
 	 * @return void
 	 */
 	public function newAction(User $user = NULL) {
+		$this->flashMessageContainer->flush();
 		$this->view->assign('user', $user);
 		$this->view->assign('allUserGroups', $this->allUserGroups);
 		$this->assignForAll();
