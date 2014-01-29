@@ -61,7 +61,9 @@ class PasswordValidator extends \TYPO3\CMS\Extbase\Validation\Validator\Abstract
 	protected function passwordFieldsAdded() {
 		$flexFormValues = GeneralUtility::xml2array($this->cObj->data['pi_flexform']);
 		$fields = $flexFormValues['data'][$this->actionName]['lDEF']['settings.' . $this->actionName . '.fields']['vDEF'];
-		if (empty($fields) || GeneralUtility::inList($fields, 'password')) {
+		$configuration = $this->configurationManager->getConfiguration(\TYPO3\CMS\Extbase\Configuration\ConfigurationManagerInterface::CONFIGURATION_TYPE_SETTINGS);
+		$tsfields = strtolower($configuration['new']['fields']);
+		if (empty($fields) || GeneralUtility::inList($fields, 'password') || GeneralUtility::inList($tsfields, 'password')) {
 			// password fields are added to form
 			return TRUE;
 		}
