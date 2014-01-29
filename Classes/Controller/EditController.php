@@ -44,6 +44,7 @@ class EditController extends \In2\Femanager\Controller\GeneralController {
 	 * @return void
 	 */
 	public function editAction() {
+		$this->flashMessageContainer->flush();
 		$this->view->assign('user', $this->user);
 		$this->view->assign('allUserGroups', $this->allUserGroups);
 		$this->assignForAll();
@@ -209,7 +210,10 @@ class EditController extends \In2\Femanager\Controller\GeneralController {
 		$this->userRepository->remove($user);
 
 		$this->redirectByAction('delete'); // if redirect via TS was included
-		$this->redirect('edit'); // redirect to edit
+
+		if(!$this->config['delete.']['redirect.']) {
+			$this->redirect('edit'); // redirect to edit
+		}
 	}
 
 }
