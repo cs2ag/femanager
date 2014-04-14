@@ -388,7 +388,11 @@ class GeneralController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionControll
 			return;
 		}
 
-		$GLOBALS['TSFE']->fe_user->checkPid = '';
+		if($this->config['new.']['checkPid'] > 0) {
+			$GLOBALS['TSFE']->fe_user->checkPid_value = intval($this->config['new.']['checkPid']);
+		} else {
+			$GLOBALS['TSFE']->fe_user->checkPid = '';
+		}
 		$info = $GLOBALS['TSFE']->fe_user->getAuthInfoArray();
 		$user = $GLOBALS['TSFE']->fe_user->fetchUserRecord($info['db_user'], $user->getUsername());
 		$GLOBALS['TSFE']->fe_user->createUserSession($user);
